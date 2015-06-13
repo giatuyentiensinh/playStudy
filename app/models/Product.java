@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import play.data.validation.Constraints.Required;
@@ -13,6 +14,7 @@ public class Product {
 	public String name;
 	public String description;
 
+	public List<Tag> tags = new LinkedList<Tag>();
 	private static List<Product> products;
 
 	static {
@@ -44,16 +46,16 @@ public class Product {
 	public static List<Product> findByName(String term) {
 		final List<Product> results = new ArrayList<Product>();
 		for (Product candidate : products) {
-			if(candidate.name.toLowerCase().contains(term.toLowerCase()))
+			if (candidate.name.toLowerCase().contains(term.toLowerCase()))
 				results.add(candidate);
 		}
 		return results;
 	}
-	
+
 	public static boolean remove(Product product) {
 		return products.remove(product);
 	}
-	
+
 	public void save() {
 		products.remove(findByEan(this.ean));
 		products.add(this);

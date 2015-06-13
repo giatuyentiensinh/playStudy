@@ -2,8 +2,6 @@
 
 @import helper._
 
-
-
 @main("Product form") {
 	<div class="container">
 		<h1>Product form</h1>
@@ -14,6 +12,26 @@
 				@helper.inputText(productForm("name"), '_label -> "Name")
 				@helper.textarea(productForm("description"), '_label -> "Description")
 			</fieldset>
+			<div class="control-group">
+				<div class="controls">
+					<input name="tags[0].id" value="1" type="checkbox"
+						@for(i <- 0 to 2) {
+							@if(productForm("tags[" + i + "].id").value == "1") {checked}
+						}
+					> lightweight
+					<input name="tags[1].id" value="2" type="checkbox"
+						@for(i <- 0 to 2) {
+							@if(productForm("tags[" + i + "].id").value == "2") {checked}
+						}
+					> metal
+					<input name="tags[2].id" value="3" type="checkbox"
+						@for(i <- 0 to 2) {
+							@if(productForm("tags[" + i + "].id").value == "3") {checked}
+						}
+					> plastic
+				</div>
+			</div>
+			<br />
 			<input class="btn btn-primary" type="submit" value="Save" />
 			<a href="@routes.Products.list()" class="btn btn-danger">Cancel</a>
 		}
