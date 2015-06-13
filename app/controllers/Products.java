@@ -2,9 +2,7 @@ package controllers;
 
 import java.util.List;
 
-import akka.routing.Router;
 import models.Product;
-import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -39,6 +37,14 @@ public class Products extends Controller{
 		Product product = boundForm.get();
 		product.save();
 		flash("success", String.format("Successfully added product %s", product));
+		return redirect("/products/");
+	}
+	
+	public Result delete(String ean) {
+		Product product = Product.findByEan(ean);
+		if(product == null) 
+			return notFound(String.format("Product %s does not exist", ean));
+		Product.remove(product);
 		return redirect("/products/");
 	}
 }
