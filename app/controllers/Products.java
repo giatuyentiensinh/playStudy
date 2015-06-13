@@ -22,10 +22,10 @@ public class Products extends Controller{
 		return ok(views.html.details.render(productForm));
 	}
 	
-	public Result details(String ean) {
-		final Product product = Product.findByEan(ean);
+	public Result details(Product product) {
+//		final Product product = Product.findByEan(ean);
 		if(product == null) 
-			return notFound(String.format("Product %s does not exist", ean));
+			return notFound(String.format("Product %s does not exist", product.ean));
 		Form<Product> filledForm = productForm.fill(product);
 		return ok(views.html.details.render(filledForm));
 	}

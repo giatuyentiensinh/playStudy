@@ -37,9 +37,8 @@ public class Tag {
 		super();
 		this.id = id;
 		this.name = name;
-		for (Product product : products) {
+		for (Product product : products)
 			product.tags.add(this);
-		}
 	}
 
 }

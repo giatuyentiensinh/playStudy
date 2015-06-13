@@ -5,8 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import play.data.validation.Constraints.Required;
+import play.mvc.PathBindable;
 
-public class Product {
+public class Product implements PathBindable<Product> {
 
 	@Required
 	public String ean;
@@ -75,5 +76,23 @@ public class Product {
 	@Override
 	public String toString() {
 		return String.format("%s - %s", ean, name);
+	}
+	
+
+	@Override
+	public Product bind(String key, String value) {
+		return findByEan(value);
+	}
+	
+
+	@Override
+	public String javascriptUnbind() {
+		return ean;
+	}
+	
+
+	@Override
+	public String unbind(String key) {
+		return ean;
 	}
 }
