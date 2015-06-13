@@ -3,9 +3,13 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
+import play.data.validation.Constraints.Required;
+
 public class Product {
 
+	@Required
 	public String ean;
+	@Required
 	public String name;
 	public String description;
 

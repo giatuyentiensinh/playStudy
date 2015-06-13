@@ -2,7 +2,9 @@ package controllers;
 
 import java.util.List;
 
+import akka.routing.Router;
 import models.Product;
+import play.Routes;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -26,8 +28,13 @@ public class Products extends Controller{
 	
 	public Result save() {
 		Form<Product> boundForm = productForm.bindFromRequest();
+		if(boundForm.hasErrors()) {
+			flash("error", "Please correct the from below.");
+			return badRequest(views.html.details.render(boundForm));
+		}
 		Product product = boundForm.get();
 		product.save();
-		return ok(String.format("Save product %s", product));
+		flash("success", String.format("Successfully added product %s", product));
+		return redirect("/products/");
 	}
 }
