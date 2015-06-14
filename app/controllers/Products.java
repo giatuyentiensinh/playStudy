@@ -52,7 +52,7 @@ public class Products extends Controller{
 		Product product = Product.findByEan(ean);
 		if(product == null) 
 			return notFound(String.format("Product %s does not exist", ean));
-		Product.remove(product);
+		product.delete();
 		return redirect("/products/");
 	}
 }
