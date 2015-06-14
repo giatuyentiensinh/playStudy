@@ -1,12 +1,13 @@
 package models;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.avaje.ebean.Model.Finder;
 
 @Entity
 public class Tag {
@@ -17,13 +18,11 @@ public class Tag {
 	@ManyToMany(mappedBy = "tags")
 	public List<Product> products;
 
-	private static List<Tag> tags = new LinkedList<Tag>();
+	public static Finder<Long, Tag> find = new Finder<Long, Tag>(Long.class,
+			Tag.class);
 
 	public static Tag findById(Long id) {
-		for (Tag tag : tags)
-			if (tag.id == id)
-				return tag;
-		return null;
+		return find.byId(id);
 	}
 
 	public Tag() {
