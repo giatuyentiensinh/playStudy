@@ -13,11 +13,11 @@ import play.mvc.PathBindable;
 import com.avaje.ebean.Model;
 
 @Entity
-public class Product extends Model implements PathBindable<Product>{
+public class Product extends Model implements PathBindable<Product> {
 
 	@Id
 	public Long id;
-	
+
 	@Required
 	public String ean;
 	@Required
@@ -25,9 +25,11 @@ public class Product extends Model implements PathBindable<Product>{
 	public String description;
 	public byte[] picture;
 	public List<Tag> tags = new LinkedList<Tag>();
-	
+
 	private static List<Product> products;
-	
+	public static Finder<Long, Product> find = new Finder<Long, Product>(
+			Long.class, Product.class);
+
 	static {
 		products = new ArrayList<Product>();
 		products.add(new Product("1111111111111", "Paperclips 1",
@@ -43,7 +45,7 @@ public class Product extends Model implements PathBindable<Product>{
 	}
 
 	public static List<Product> findAll() {
-		return new ArrayList<Product>(products);
+		return find.all();
 	}
 
 	public static Product findByEan(String ean) {
@@ -87,19 +89,16 @@ public class Product extends Model implements PathBindable<Product>{
 	public String toString() {
 		return String.format("%s - %s", ean, name);
 	}
-	
 
 	@Override
 	public Product bind(String key, String value) {
 		return findByEan(value);
 	}
-	
 
 	@Override
 	public String javascriptUnbind() {
 		return ean;
 	}
-	
 
 	@Override
 	public String unbind(String key) {
