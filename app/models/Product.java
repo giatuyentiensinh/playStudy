@@ -49,11 +49,7 @@ public class Product extends Model implements PathBindable<Product> {
 	}
 
 	public static Product findByEan(String ean) {
-		for (Product candidate : products) {
-			if (candidate.ean.equals(ean))
-				return candidate;
-		}
-		return null;
+		return find.where().eq("ean", ean).findUnique();
 	}
 
 	public static List<Product> findByName(String term) {
