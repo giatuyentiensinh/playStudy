@@ -27,7 +27,7 @@ public class Product extends Model implements PathBindable<Product>{
 	public List<Tag> tags = new LinkedList<Tag>();
 	
 	private static List<Product> products;
-
+	
 	static {
 		products = new ArrayList<Product>();
 		products.add(new Product("1111111111111", "Paperclips 1",

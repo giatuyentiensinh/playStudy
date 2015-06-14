@@ -3,6 +3,8 @@ package controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.avaje.ebean.Ebean;
+
 import models.Product;
 import models.Tag;
 import play.data.Form;
@@ -41,7 +43,7 @@ public class Products extends Controller{
 		for (Tag tag : product.tags)
 			tags.add(Tag.findById(tag.id));
 		product.tags = tags;
-		product.save();
+		Ebean.save(product);
 		flash("success", String.format("Successfully added product %s", product));
 		return redirect("/products/");
 	}
