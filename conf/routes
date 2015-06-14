@@ -7,5 +7,9 @@ GET  /products/:ean       controllers.Products.details(ean: models.Product)
 POST /products/           controllers.Products.save()
 DELETE /products/:ean	  controllers.Products.delete(ean: String)
 
+GET	/stockitems			  controllers.StockItems.index()
+GET	/stockitems/gt300	  controllers.StockItems.greater()
+GET	/stockitems/gt300/o	  controllers.StockItems.odergt()
+
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
