@@ -4,12 +4,9 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import play.data.validation.Constraints.Required;
-
 public class Tag {
 
 	public Long id;
-	@Required
 	public String name;
 	public List<Product> products;
 

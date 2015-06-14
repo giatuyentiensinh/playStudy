@@ -4,18 +4,28 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 import play.data.validation.Constraints.Required;
 import play.mvc.PathBindable;
 
-public class Product implements PathBindable<Product> {
+import com.avaje.ebean.Model;
 
+@Entity
+public class Product extends Model implements PathBindable<Product>{
+
+	@Id
+	public Long id;
+	
 	@Required
 	public String ean;
 	@Required
 	public String name;
 	public String description;
-
+	public byte[] picture;
 	public List<Tag> tags = new LinkedList<Tag>();
+	
 	private static List<Product> products;
 
 	static {
