@@ -12,29 +12,30 @@ import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-public class Products extends Controller{
+public class Products extends Controller {
 
 	private static final Form<Product> productForm = Form.form(Product.class);
-	
+
 	public Result list() {
 		List<Product> product = Product.findAll();
 		return ok(views.html.list.render(product));
 	}
-	
+
 	public Result newProduct() {
 		return ok(views.html.details.render(productForm));
 	}
-	
+
 	public Result details(Product product) {
-		if(product == null) 
-			return notFound(String.format("Product %s does not exist", product.ean));
+		if (product == null)
+			return notFound(String.format("Product %s does not exist",
+					product.ean));
 		Form<Product> filledForm = productForm.fill(product);
 		return ok(views.html.details.render(filledForm));
 	}
-	
+
 	public Result save() {
 		Form<Product> boundForm = productForm.bindFromRequest();
-		if(boundForm.hasErrors()) {
+		if (boundForm.hasErrors()) {
 			flash("error", "Please correct the from below.");
 			return badRequest(views.html.details.render(boundForm));
 		}
@@ -43,18 +44,21 @@ public class Products extends Controller{
 		for (Tag tag : product.tags)
 			tags.add(Tag.findById(tag.id));
 		product.tags = tags;
-		StockItem stockItem = new StockItem();
-		stockItem.product = product;
-		stockItem.quantity = 0L;
-		product.save();
-		stockItem.save();
+		if (product.id == null) {
+			StockItem stockItem = new StockItem();
+			stockItem.product = product;
+			stockItem.quantity = 0L;
+			product.save();
+			stockItem.save();
+		} else
+			product.update();
 		flash("success", String.format("Successfully added product %s", product));
 		return redirect("/products/");
 	}
-	
+
 	public Result delete(String ean) {
 		Product product = Product.findByEan(ean);
-		if(product == null) 
+		if (product == null)
 			return notFound(String.format("Product %s does not exist", ean));
 		product.delete();
 		return redirect("/products/");

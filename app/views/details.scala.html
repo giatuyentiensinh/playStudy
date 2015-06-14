@@ -12,6 +12,7 @@
 				@helper.inputText(productForm("name"), '_label -> "Name")
 				@helper.textarea(productForm("description"), '_label -> "Description")
 			</fieldset>
+			<input type="hidden" value="@productForm("id").valueOr("")" name="id"/>
 			<div class="control-group">
 				<div class="controls">
 					<input name="tags[0].id" value="1" type="checkbox"
