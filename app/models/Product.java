@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 import play.data.validation.Constraints.Required;
@@ -27,7 +28,8 @@ public class Product extends Model implements PathBindable<Product> {
 	@OneToMany(mappedBy = "product")
 	public List<StockItem> stockItems;
 	public byte[] picture;
-	public List<Tag> tags = new LinkedList<Tag>();
+	@ManyToMany
+	public List<Tag> tags;
 
 	private static List<Product> products;
 	public static Finder<Long, Product> find = new Finder<Long, Product>(
