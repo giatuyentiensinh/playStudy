@@ -6,6 +6,7 @@ import java.util.List;
 import com.avaje.ebean.Ebean;
 
 import models.Product;
+import models.StockItem;
 import models.Tag;
 import play.data.Form;
 import play.mvc.Controller;
@@ -25,7 +26,6 @@ public class Products extends Controller{
 	}
 	
 	public Result details(Product product) {
-//		final Product product = Product.findByEan(ean);
 		if(product == null) 
 			return notFound(String.format("Product %s does not exist", product.ean));
 		Form<Product> filledForm = productForm.fill(product);
@@ -43,7 +43,11 @@ public class Products extends Controller{
 		for (Tag tag : product.tags)
 			tags.add(Tag.findById(tag.id));
 		product.tags = tags;
-		Ebean.save(product);
+		StockItem stockItem = new StockItem();
+		stockItem.product = product;
+		stockItem.quantity = 0L;
+		product.save();
+		stockItem.save();
 		flash("success", String.format("Successfully added product %s", product));
 		return redirect("/products/");
 	}
